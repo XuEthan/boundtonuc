@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: nvidia/cuda:12.8.0-devel-ubuntu22.04
+
+%post
+    # Update and install dependencies
+    apt-get update && apt-get install -y \
+        python3 python3-pip python3-dev build-essential \
+        git curl wget vim ca-certificates \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
+
+    # Symlink python and pip if not already set
+    ln -s /usr/bin/python3 /usr/local/bin/python || true
+    ln -s /usr/bin/pip3 /usr/local/bin/pip || true
+
+    pip install --upgrade pip
+    pip install cupy-cuda12x
+
+%environment
+    export PATH=/usr/local/cuda/bin:$PATH
+    export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+    export PYTHONUNBUFFERED=1
+
+%runscript
+    echo "This container provides CUDA 12.8 with Python and CuPy."
+    exec "$@"
