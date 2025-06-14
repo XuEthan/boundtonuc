@@ -36,8 +36,8 @@ memfp()
 
 # tile image based on input 
 # WITH overlaps 
-nuc_cpu = np.load(oname+"_nuc.npy")
-bound_cpu = np.load(oname+"_bound.npy")
+nuc_cpu = np.load(args.nucmask)
+bound_cpu = np.load(args.boundmask)
 
 # nuc or bound can be used for shape, should be the same 
 image_shape = nuc_cpu.shape
